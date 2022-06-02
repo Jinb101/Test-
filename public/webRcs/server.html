@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    服务端
+  </title>
+<script defer src="serverWebrcs.js"></script></head>
+
+<body>
+  我是客服页面
+  <script>
+    var globalMessageEvent;
+    // 监听消息通讯事件
+    window.addEventListener("message", receiveMessage, false);
+    //当A页面postMessage被调用后，这个function被addEventListener调用
+    function receiveMessage(messageEvent) {
+      globalMessageEvent = messageEvent
+      // 信任信息来源？
+      if (messageEvent.origin !== "http://localhost:8080") {
+        return;
+      }
+      console.log('收到消息', messageEvent);
+      const data = messageEvent.data;
+    }
+    // 向消息来源页发送消息
+    function sendMessage(data) {
+      globalMessageEvent.source.postMessage(data, globalMessageEvent.origin);
+    }
+  </script>
+</body>
+
+</html>
